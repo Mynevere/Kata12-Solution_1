@@ -62,22 +62,25 @@ namespace Kata12_Solution_1
             return binaryTree;
         }
 
-        public bool SellProduct(int id)
+        public Product SellProduct(int id)
         {
             var products = CreateProducts();
+            Product product = new Product();
+
             foreach (var prod in products)
             {
                 if (prod.Id == id)
                 {
                     prod.Sold++;
+                    product = prod;
                 }
             }
-            return true;
+            return product;
         }
 
         public static void Main(string[] args)
         {
-            // Create a timer with a ten second interval.
+            //Create a timer with a ten second interval.
             var aTimer = new System.Timers.Timer(10000);
 
             // Hook up the Elapsed event for the timer.
@@ -91,15 +94,27 @@ namespace Kata12_Solution_1
                 Console.WriteLine("Press any key to continue . . .");
                 Console.ReadKey();
             }
+
+            //Program program = new Program();
+            //var products = CreateProducts();
+            //var selledProduct = program.SellProduct(products[29].Id);
+            //program.TopTenProducts(products, program, selledProduct);
+
         }
 
-        public List<Product> TopTenProducts(List<Product> products, Program program) 
+        public List<Product> TopTenProducts(List<Product> products, Program program, Product prod) 
         {
             var bst = program.TopTenBinaryTree(products);
             List<Product> topTen = new List<Product>();
 
             foreach (var product in products.OrderByDescending(x => x.Sold))
             {
+
+                if (prod != null && bst.Find(prod.Id) != null)
+                {
+                    bst.Remove(prod.Id);
+                    bst.Add(prod.Id);
+                }
                 if (bst.Find(product.Id) != null)
                 {
                     topTen.Add(product);
@@ -112,7 +127,7 @@ namespace Kata12_Solution_1
         {
             Program program = new Program();
             var products = CreateProducts();
-            var list = program.TopTenProducts(products, program);
+            var list = program.TopTenProducts(products, program, null);
             foreach (var o in list)
             {
                 Console.WriteLine("Name: " + o.Name + "- Sold Nr: " + o.Sold);
