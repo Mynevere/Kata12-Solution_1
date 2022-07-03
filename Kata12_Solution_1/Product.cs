@@ -15,5 +15,7 @@ namespace Kata12_Solution_1
         public int Price { get; set; }
 
         public int Sold { get; set; }
+
+        public DateTime OrderCreated { get; set; }
     }
 }
