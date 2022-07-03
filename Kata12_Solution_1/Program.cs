@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -76,12 +77,19 @@ namespace Kata12_Solution_1
 
         public static void Main(string[] args)
         {
-            Program program = new Program();
-            var products = CreateProducts();
-            var list = program.TopTenProducts(products, program);
-            foreach (var o in list)
+            // Create a timer with a ten second interval.
+            var aTimer = new System.Timers.Timer(10000);
+
+            // Hook up the Elapsed event for the timer.
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+
+            aTimer.Interval = 1000 * 60 * 60; //1h
+            aTimer.Enabled = true;
+
+            if (Debugger.IsAttached)
             {
-                Console.WriteLine("Name: " + o.Name + "- Sold Nr: " + o.Sold);
+                Console.WriteLine("Press any key to continue . . .");
+                Console.ReadKey();
             }
         }
 
@@ -98,6 +106,17 @@ namespace Kata12_Solution_1
                 }
             }
             return topTen;
+        }
+
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            Program program = new Program();
+            var products = CreateProducts();
+            var list = program.TopTenProducts(products, program);
+            foreach (var o in list)
+            {
+                Console.WriteLine("Name: " + o.Name + "- Sold Nr: " + o.Sold);
+            }
         }
     }
 }
