@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Kata12_Solution_1/.vs/Kata12_Solution_1
+/Kata12_Solution_1/bin/Debug/net5.0
+/Kata12_Solution_1/obj
